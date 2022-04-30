@@ -1,0 +1,34 @@
+name: docify
+description: A package that can quickly build a document website.
+version: 0.1.0
+homepage: https://github.com/ggdream
+repository: https://github.com/ggdream/docify
+
+environment:
+  sdk: ">=2.16.2 <3.0.0"
+
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+  crypto: ^3.0.2
+  cupertino_icons: ^1.0.2
+  flex_color_scheme: ^5.0.1
+  flutter_markdown: ^0.6.10
+  get: ^4.6.1
+  path: ^1.8.0
+  yaml: ^3.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^1.0.0
+
+
+flutter:
+  uses-material-design: true
+  # assets:
+  #   - assets/docify/
+  #   - assets/docify/docs/

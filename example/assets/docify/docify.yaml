@@ -1,0 +1,24 @@
+name: 思思的博客
+icon: logo.png
+declare: 欢迎来到这里
+
+center:
+  - title: 测试1
+    image: 'https://raw.githubusercontent.com/mocaraka/assets/main/picture/326.jpg'
+    content: test1
+  - title: 测试2
+    image: 'https://raw.githubusercontent.com/mocaraka/assets/main/picture/330.jpg'
+    content: test2
+
+router:
+  mode: history
+  routes:
+    - name: a
+      path: test1.md
+      children:
+        - name: b
+          path: test2.md
+        - name: b
+          path: test3.md
+    - name: c
+      path: test4.md
