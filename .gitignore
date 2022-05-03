@@ -48,5 +48,6 @@ app.*.map.json
 /web/
 /windows/
 /example/build/
+/assets/
 
 lib/main.dart

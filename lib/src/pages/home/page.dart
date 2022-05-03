@@ -1,9 +1,11 @@
-import 'package:docify/src/global/global.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../global/global.dart';
 import '../../router/router.dart';
+import '../../tools/launcher/launcher.dart';
+import 'model.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({
@@ -189,15 +191,68 @@ class HomePage extends StatelessWidget {
       centerTitle: false,
       actions: context.isPhone
           ? null
-          : AppRouter.docx
-              .map((m) => ElevatedButton(
-                    child: Text(m.name),
-                    onPressed: m.hash == null
-                        ? null
-                        : () => Get.toNamed(AppRouter.view + '/' + m.hash!),
-                    style: Theme.of(context).textButtonTheme.style,
-                  ))
-              .toList(),
+          : [
+              ...AppRouter.docx.map((m) {
+                return _PopupBottonView(model: m);
+              }).toList(),
+              const SizedBox(width: 32),
+            ],
+    );
+  }
+}
+
+class _PopupBottonView extends StatelessWidget {
+  _PopupBottonView({
+    Key? key,
+    required this.model,
+  }) : super(key: key);
+
+  final TopNavItemModel model;
+  final anchorKey = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+    return Builder(
+      builder: (context) {
+        return MouseRegion(
+          onHover: (_) async {
+            if (model.children == null) return;
+            final renderBox = context.findRenderObject() as RenderBox;
+
+            final hash = await showMenu<String>(
+              context: context,
+              position: RelativeRect.fromLTRB(
+                renderBox.localToGlobal(Offset.zero).dx,
+                renderBox.size.height,
+                0,
+                0,
+              ),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(8),
+                ),
+              ),
+              items: model.children!
+                  .map((m) => PopupMenuItem<String>(
+                        onTap: () => Get.back(result: m.hash),
+                        child: Text(m.name),
+                      ))
+                  .toList(),
+            );
+            if (hash != null) {
+              launchUrl(AppRouter.view + '/' + hash);
+            }
+          },
+          child: ElevatedButton(
+            key: anchorKey,
+            child: Text(model.name),
+            onPressed: model.hash == null
+                ? null
+                : () => Get.toNamed(AppRouter.view + '/' + model.hash!),
+            style: Theme.of(context).textButtonTheme.style,
+          ),
+        );
+      }
     );
   }
 }
